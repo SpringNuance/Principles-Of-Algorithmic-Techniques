@@ -1,0 +1,112 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\graphicspath{ {./img/} }
+\geometry{a4paper}
+
+\title{Graded Exercise 6}
+\author{Duong Le}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+Since $V_1$ and $V_2$ are equivalent, we only need to argue for one case. Also, denote the diameter of $V_1$ as $d_{V_1}$. We have:
+\[
+P[d_{V_1} = O(loglogn)] = 1 - P[d_{V_1} = \omega(loglogn)]
+\]
+Consider a path in $V_1$. The probability of that path is in $V_1$ is $(\frac{1}{2})^k$ since for two vertices, the probability of there exist an edge between them is $\frac{1}{2}$. Thus, the probability of $d_{V_1}$ is $\omega(loglogn)$ is:
+\[
+P[d_{V_1} = \omega(loglogn)] \leq \left( \frac{1}{2} \right)^{\omega(loglogn)}
+\]
+We have again:
+\[
+P[d_{V_1} = \omega(loglogn)] = P\left[ \bigcup_{i=1}^{n} \text{Path with length $\omega(loglogn)$ is in $V_1$} \right]
+\]
+Applying the union bound to the above probability, we get that:
+\[
+P\left[ \bigcup_{i=1}^{n} \text{Path with length $\omega(loglogn)$ is in $V_1$} \right] \leq \sum_{i=1}^{n} P[\text{Path $P_i$ with length $\omega(loglogn)$ is in $V_1$}]
+\]
+The number of path in the a tree is equal to the number of vertices pair $\{u, v\}$ in the tree, which is ${n \choose 2} = O(n^2)$
+\[
+\Rightarrow P[d_{V_1} = \omega(loglogn)] \leq O(n^2) \cdot \left( \frac{1}{2} \right)^{\omega(loglogn)}
+\]
+We have:
+\[
+\frac{1}{2^{loglogn}} = \frac{1}{logn}
+\]
+But since $\omega(loglogn) > loglogn$
+\[
+\begin{aligned}
+&\Rightarrow     & \frac{1}{2^{\omega(loglogn)}} &< \frac{1}{poly(logn)} \\
+&\Leftrightarrow& \frac{O(n^2)}{2^{\omega(loglogn)}} &< \frac{O(n^2)}{poly(logn)}
+\end{aligned}
+\]
+Consider the right hand side. The growth rate of $O(n^2)$ can be larger than the growth rate of $poly(logn)$. So as $n$ grows larger, the term $O(n^2) /2^{\omega(loglogn)}$ will also tends to infinity, or in other words, increases the probability of failing. Thus, the probability of getting set with diameter $O(loglogn)$ will decrease. \\\\
+$\Rightarrow$ The algorithm does not success with high probability.
+
+
+
+\pagebreak
+\section*{Problem 2}
+Let $x_{u, v}$ denote the random variable of whether there is an edge between the vertices $u$ and $v$: $x_{u, v} = 1$ if there is an edge between $u$ and $v$, and $x_{u, v} = 0$ otherwise. And since each event occurs with equal probability.
+\[
+\Rightarrow E[x_{u,v}] = \frac{1}{2} \cdot 1 + \frac{1}{2} \cdot 0 = \frac{1}{2}
+\]
+Consider a random bisection $(S, V \textbackslash S)$, and let $s_i \in S$, $t_i \in V \textbackslash S$. Denote the random variable represents the number of crossing edges as $X$. Since there are $\frac{n}{2}$ vertices in each side, we have:
+\[
+\begin{aligned}
+&                  & X &= \sum_{i=1}^{\frac{n}{2}}\sum_{j=1}^{\frac{n}{2}} x_{s_i, t_j} \\
+&\Rightarrow& \mu  = E[X] &= \sum_{i=1}^{\frac{n}{2}}\sum_{j=1}^{\frac{n}{2}} E[x_{s_i, t_j}] = \frac{n^2}{8}
+\end{aligned}
+\] 
+Denote the event that $X$ is between $\frac{(1-\delta)n^2}{8}$ and $\frac{(1+\delta)n^2}{8}$ as $Y$. Consider:
+\[
+\begin{aligned}
+P[Y] = P \left[ \frac{(1-\delta)n^2}{8} \leq X \leq  \frac{(1+\delta)n^2}{8} \right] &= 1 - P \left[ \bigcup \left( X < \frac{(1-\delta)n^2}{8}, X > \frac{(1+\delta)n^2}{8} \right) \right] \\
+&= 1 - P[\overline{Y}]
+\end{aligned}
+\]
+Apply the union bound to $P[\overline{Y}]$, we have:
+\[
+\begin{aligned}
+P[\overline{Y}] &\leq P \left[ X < \frac{(1-\delta)n^2}{8} \right] + P \left[ X > \frac{(1+\delta)n^2}{8} \right] \\ 
+&\leq P \left[ X \leq \frac{(1-\delta)n^2}{8} \right] + P \left[ X \geq \frac{(1+\delta)n^2}{8} \right]
+\end{aligned}
+\]
+Since $\delta \in (0,1)$, and $\frac{(1 \pm \delta)n^2}{8} = (1 \pm \delta)\mu$ we can apply the lower tail and upper tail Chernoff bound. Thus, we have:
+\[
+\begin{aligned}
+\begin{cases}
+            P \left[ X \leq \frac{(1-\delta)n^2}{8} \right] \leq e^{-\frac{\delta^2}{2} \cdot \frac{n^2}{8}}  \\\\
+            P \left[ X \geq \frac{(1+\delta)n^2}{8} \right] \leq e^{-\frac{\delta^2}{2+\delta} \cdot \frac{n^2}{8}} 
+        \end{cases} 
+\end{aligned}
+\]
+Sum up the two results:
+\[
+\begin{aligned}
+P[\overline{Y}] &\leq e^{-\frac{\delta^2}{2} \cdot \frac{n^2}{8}} + e^{-\frac{\delta^2}{2+\delta} \cdot \frac{n^2}{8}} \\
+                        &= e^{-n^2}(e^{\frac{\delta^2}{16}} + e^{\frac{\delta^2}{(2+\delta)8}}) \\     
+                        &= \frac{e^{\frac{\delta^2}{16}} + e^{\frac{\delta^2}{(2+\delta)8}}}{e^{n^2}}  \\
+\end{aligned}
+\]
+Since $e^{n^2} > poly(n)$ $\Rightarrow$ $\frac{1}{e^{n^2}} < \frac{1}{poly(n)}$, and  $e^{\frac{\delta^2}{16}} + e^{\frac{\delta^2}{(2+\delta)8}} = O(1)$, we have:
+\[
+P[Y] = 1 - P[\overline{Y}] \geq 1 - \frac{O(1)}{poly(n)}
+\]
+As $n$ grows larger, the term $\frac{O(1)}{poly(n)}$ will tend to 0, and $P[Y]$ will tend to 1. \\\\
+$\Rightarrow$ With high probability, the number of crossing edges will be between $\frac{(1-\delta)n^2}{8}$ and $\frac{(1+\delta)n^2}{8}$.
+
+
+
+
+
+
+\end{document}

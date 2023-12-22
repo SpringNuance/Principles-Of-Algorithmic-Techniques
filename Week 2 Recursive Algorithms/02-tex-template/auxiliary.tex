@@ -1,0 +1,153 @@
+\usepackage{aaltologo}
+\usepackage{hyperref}
+\usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{amssymb,amsmath,mathrsfs,amsthm}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3mm}
+
+\pagestyle{empty}
+
+% Miscellaneous LaTeX macros
+\newcommand{\heading}[1]{{\Large\color{blue!80!black}\textbf{#1}}\par}
+\newcommand{\slemp}[1]{{\color{red}#1}}
+\newcommand{\slred}[1]{{\color{red}#1}}
+\newcommand{\slbf}[1]{{\color{blue}\textbf{#1}}}
+\newcommand{\pair}[2]{\langle {#1}, {#2} \rangle}
+\newcommand{\Abar}{\bar{A}}
+\newcommand{\ALG}{\text{ALG}}
+\newcommand{\approxA}{\alpha_{\cal A}}
+\newcommand{\argmin}{\operatornamewithlimits{arg\ min}}
+\newcommand{\assign}{\mbox{$\; \leftarrow \;$}}
+\newcommand{\bbar}{\bar{b}}
+\newcommand{\Bin}{\text{Bin}}
+\newcommand{\calA}{{\cal A}}
+\newcommand{\calC}{{\cal C}}
+\newcommand{\calI}{{\cal I}}
+\newcommand{\calM}{{\cal M}}
+\newcommand{\calN}{{\cal N}}
+\newcommand{\calS}{{\cal S}}
+\newcommand{\chat}{\hat{c}}
+\newcommand{\chatopt}{\hat{c}^*}
+\newcommand{\copt}{c^*}
+\newcommand{\Cov}{\text{Cov}}
+\newcommand{\DC}{\text{DC}}
+\newcommand{\delC}{\partial C}
+\newcommand{\delS}{\partial S}
+\newcommand{\delT}{\partial T}
+\newcommand{\diag}{\textit{diag}}
+\newcommand{\dtv}{d_{\text{V}}}
+\newcommand{\dom}{\mathcal{D}}
+\newcommand{\E}{\text{E}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\false}{\text{false}}
+\newcommand{\Gbar}{\bar{G}}
+\newcommand{\Gnp}{{\cal G}(n,p)}
+\newcommand{\Int}{\mathbf{I}}
+\newcommand{\lambdamax}{\lambda_{\text{max}}}
+\newcommand{\LPI}{$\text{LP}_{\text{I}}$}
+\newcommand{\LPII}{$\text{LP}_{\text{II}}$}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\om}{\omega}
+\newcommand{\Om}{\Omega}
+\newcommand{\OPT}{\text{OPT}}
+\newcommand{\OPTf}{\text{OPT}_f}
+\newcommand{\phase}{\bar{\sigma}}
+\newcommand{\phat}{\hat{p}}
+\newcommand{\pt}{p^{(t)}}
+\newcommand{\rbot}{r^{\bot}}
+\newcommand{\rhat}{\hat{r}}
+\newcommand{\RENT}{\text{RENT}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\RRmn}{\mathbb{R}^{m\times n}}
+\newcommand{\RRn}{\mathbb{R}^n}
+\newcommand{\RRnn}{\mathbb{R}^{n\times n}}
+\newcommand{\sgn}{\text{sgn}}
+\newcommand{\stot}{$s$-$t$}
+\newcommand{\true}{\text{true}}
+\newcommand{\st}{\text{s.t.}}
+\newcommand{\vivi}{v_i^Tv_i}
+\newcommand{\vivj}{v_i^Tv_j}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\xbar}{\bar{x}}
+\newcommand{\xopt}{x^*}
+\newcommand{\ybar}{\bar{y}}
+\newcommand{\yopt}{y^*}
+\newcommand{\zbar}{\bar{z}}
+\newcommand{\zopt}{z^*}
+\newcommand{\ZIP}{Z^*_{\text{IP}}}
+\newcommand{\ZLP}{Z^*_{\text{LP}}}
+\newcommand{\ZZ}{\mathbb{Z}}
+
+\newcommand{\tD}[1]{\textrm{\em\color{aaltoGreen}{#1}}}
+\newcommand{\tB}[1]{\text{\color{aaltoBlack}{#1}}}
+\newcommand{\Pt}{\ensuremath{\mathrm{P}}}
+\newcommand{\NP}{\ensuremath{\mathrm{NP}}}
+\newcommand{\bra}{\ensuremath{\langle}}
+\newcommand{\ket}{\ensuremath{\rangle}}
+\newcommand{\DFT}{\ensuremath{\operatorname{DFT}}}
+\newcommand{\rev}{\ensuremath{\operatorname{rev}}}
+\newcommand{\quo}{\ensuremath{\operatorname{quo}}}
+\newcommand{\rem}{\ensuremath{\operatorname{rem}}}
+\newcommand{\take}{\ensuremath{\operatorname{\upharpoonright}}}
+\newcommand{\ord}{\ensuremath{\operatorname{ord}}}
+\newtheorem{fact}{Fact}
+
+%--------- STUFF FOR 2021 ITERATION ---------
+
+\usepackage{bbm}
+\usepackage{float} 
+\usepackage{tikz}
+\newcommand{\ex}{\text{E}}
+\newcommand{\pr}{\text{P}}
+\allowdisplaybreaks
+
+% question title
+\newcommand{\qtitle}[1]{{\color{aaltoBlue}\textbf{#1}}}
+
+%% algorithm environment
+\usepackage[ruled, vlined]{algorithm2e}
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{aaltoBlue}{#1}}
+\SetCommentSty{mycommfont}
+\usepackage{ulem}
+
+\newif\ifanswer
+\newif\ifgraded
+\newcommand{\answer}[1]{\vspace{1mm}{\color{aaltoBlue}\ifanswer \textbf{Solution.}#1\fi}}
+
+\newcommand{\createheader}[1]{
+{\color{aaltoBlue}{
+\LARGE\bf CS-E3190 Principles of Algorithmic Techniques \\ [2mm]
+{\it #1 \ifgraded -- Graded Exercise \else -- Tutorial Exercise \fi}
+
+}}}
+
+
+\newcommand{\rulebox}[1]{
+\ifgraded
+
+\vspace{-3mm}
+{\color{aaltoBlue} \rule{16cm}{1pt}}
+
+\centering{
+\vspace{2mm}
+\fbox{\begin{minipage}{14.5cm}
+\vspace{2mm} \small \normalfont
+{Please read the following \textbf{rules} very carefully.
+\begin{itemize}[itemsep=0.5mm, leftmargin=15pt]
+    \item Do not consciously search for the solution on the internet.
+    \item You are allowed to discuss the problems with your classmates but you should \textbf{write the solutions yourself}.
+    \item Be aware that \textbf{if plagiarism is suspected}, you could be asked to have an interview with teaching staff.
+    \item The teaching staff can assist with understanding the problem statements, but will \textbf{not be giving any hints} on how to solve the exercises. 
+    \item In order to ease grading, we want the solution of each problem and subproblem to start on a \textbf{new page}. If this requirement is not met, \textbf{points will be deduced}.
+\end{itemize}
+}
+\vspace{0.5mm}
+\end{minipage}}}
+\else
+\vspace{-3mm}
+{\color{aaltoBlue} \rule{16cm}{1pt}}
+\vspace{-2mm}
+\fi
+}

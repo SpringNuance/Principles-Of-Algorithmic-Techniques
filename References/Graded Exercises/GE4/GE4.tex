@@ -1,0 +1,64 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts} 
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\geometry{a4paper}
+
+\title{Graded Exercise 4}
+\author{Duong Le}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+\subsection*{a.}
+Let denote the number of edge in a tree as $m$. \\\\
+Consider, in a tree, the distance between two vertices $\{u, v\}$ will be $m$ at most. This distance is achieved in case the tree is in a shape of a $line$, where the distance of two degree 1 nodes is $m$. \\\\
+On the other hand, in a graph, those two node can be neighbour, which means $d_{G}(u, v) = 1$. Additionally, since we are considering spanning tree, the number of vertices in the tree is equal to the number of vertices in the graph, let denote this number as $n$. We also know that in a tree, the number of egde is equal to the number of vertices minus 1. \\\\
+$\Rightarrow$ The worst case value of $t$ is $n-1$.
+
+\pagebreak
+\subsection*{b.}
+Consider an abitrary edge $(u, v) \in E$. Since this is an edge, $d_{G}(u, v) = 1$. Additionally, let the length of the shortest cycle that contains the vertices $u$ and $v$ denoted as $k$. Now, if we remove the edge $(u, v)$ to obtain the subgraph, we get that $d_{G'}(u, v) = k - 1$. Since the girth of the graph is strictly larger than $t + 1$, we have the following:
+\[ 
+\begin{aligned}
+&                      &     k &> t + 1 \\
+&\Leftrightarrow& k - 1 &> t  \\
+&\Rightarrow& d_{G'}(u, v) &> t \cdot d_{G}(u, v) \nonumber 
+\end{aligned}
+\]
+We can see that the condition of $t$-spanner is violated. \\\\
+$\Rightarrow$ A graph with the girth strictly larger than $t+1$ has no proper subgraph that is a $t$-spanner.
+
+\pagebreak
+\subsection*{c.}
+Consider an edge $\{u, v\} \in G$. If $d_{G}(u, v) \neq w(u, v)$, we can always remove the edge $\{u, v\}$ without changing the distance of $u$ and $v$. And every spanner of the resulting graph is also a spanner of the original graph. \\\\
+So we get that $d_{G}(u, v) = w(u, v)$. Now, consider the edge $\{u, v\}$, there are two cases regarding the distance of $u$ and $v$ in the subgraph $G'$: 
+\begin{align}
+        \begin{cases}
+            d_{G'}(u, v) \leq t \cdot w(u, v) \\
+            d_{G'}(u, v) > t \cdot w(u, v)
+        \end{cases}
+        \nonumber
+\end{align} 
+In the former case, the property of $t$-spanner is already satisfied. And in the second case, $\{u, v\}$ is added to $G'$, making $d_{G'}(u, v) = w(u, v)$. Clearly, for every postive interger $t$, $w(u, v) \leq t \cdot w(u, v)$, thus satisfying the spanner requirement. \\\\
+$\Rightarrow$ The algorithm yields a $t$-spanner.
+
+\pagebreak
+\subsection*{d.}
+Assume that $G'$ has girth less than $t+1$. This means that the graph has a cycle which length is at most $t$. Let the last edge added to the said cycle be $\{u, v\}$. Since the edges are ordered, $w(u, v)$ should be the largest among the cycle edges. Also, the cycle up to this point can only have at most $t - 1$ edges, otherwise it will create a cycle of length $t+1$. But in that case, we also have the following:
+\[
+d_{G'}(u, v) \leq (t-1) \cdot w(u, v) < t \cdot w(u, v)
+\]
+But by the algorithm, $\{u, v\}$ can only be added if $d_{G'}(u, v) > t \cdot w(u, v)$. Thus, we have a contradiction. \\\\
+$\Rightarrow$ The girth of $G'$ is at least $t+1$.
+
+
+
+\end{document}

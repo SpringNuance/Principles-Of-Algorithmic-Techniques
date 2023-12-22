@@ -1,0 +1,197 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts} 
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\graphicspath{ {./images/} }
+\geometry{a4paper}
+
+\title{Graded Exercise 2}
+\author{Duong Le}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+\subsection*{a.}
+Consider the following matrix multiplication:
+
+\[
+\begin{pmatrix} a & b \\ c & d \end{pmatrix}
+\begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}
+=
+\begin{pmatrix} a + b & a \\ c + d & c \end{pmatrix}
+\]
+
+Now, if we plug the identity ${F(i)}$, ${F(i-1)}$, ${F(i-1)}$, and ${F(i-2)}$ to the above matrix multiplications, we have: 
+
+\[
+\begin{pmatrix} F(i) & F(i-1) \\ F(i-1) & F(i-2) \end{pmatrix}
+\begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}
+= \begin{pmatrix} F(i) + F(i-1) & F(i) \\ F(i-1) + F(i-2) & F(i-1) \end{pmatrix}
+= \begin{pmatrix} F(i+1) & F(i) \\ F(i) & F(i-1) \end{pmatrix}
+\]
+
+So, by putting the Fibonacci number in to a matrix and multiply it with ${\begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}}$, we can receive a matrix contains the next Fibonacci numbers. Notice that the first Fibonacci matrix is ${\begin{pmatrix} ${F(2)}$ & ${F(1)}$ \\ ${F(1)}$ & 0 \end{pmatrix} = \begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}}$, and the matrix can only start with ${i > 2}$, we have the following:
+
+\[
+\begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}^{n}
+=
+\begin{pmatrix} F(n+1) & F(n) \\ F(n)  & F(n-1) \end{pmatrix}
+\]
+
+To receive the identity required by the questions, we can multiply the resulting matrix with the vector ${\begin{pmatrix} 1 \\ 0 \end{pmatrix}}$:
+
+\[
+\begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}^{n}
+\begin{pmatrix} 0 \\ 1 \end{pmatrix}
+=
+\begin{pmatrix} F(n) \\ F(n-1) \end{pmatrix}
+\]
+
+
+\pagebreak
+\subsection*{b.}
+Base on the previous part, we can make an algorithm to calculate the nth Fibonacci number. The function $product$ is the function to calculate matrix multiplication using Strassen's algorithm:
+
+\begin{algorithm}
+\caption{$power(A, n)$}\label{alg:cap}
+\begin{algorithmic}
+\If{($n = 0$)} 
+    \State $return 1$
+\ElsIf{($n = 1$)} 
+    \State $return A$
+\Else
+    \If{$n\%2$ = 0}
+        \State $k \gets \frac{n}{2}$
+        \State $A^k \gets power(A, k)$ 
+        \State $product(A^k, A^k, 2)$  
+    \Else
+        \State $k \gets \frac{n - 1}{2}$
+        \State $A^k \gets power(A, k)$ 
+        \State $intermediate \gets product(A^k, A^k, 2)$
+        \State $product(intermediate, A, 2)$
+    \EndIf
+\EndIf 
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}
+\caption{$fib(n)$}\label{alg:cap}
+\begin{algorithmic}
+\If{($n = 0$)} 
+    \State $fib(n) \gets 0$
+\ElsIf{($n \leq 2$)} 
+    \State $fib(n) \gets 1$
+\Else
+    \State $A \gets \begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}$
+    \State $B \gets power(A, n)$
+    \State $return$ $B(0, 0)$
+\EndIf 
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\pagebreak
+\subsection*{c.}
+Consider, incase $n$ is odd, we need 14 arithmetic operations to combine the subproblems (There are two calls to the $product$ method). So, we have:
+
+\[
+T(n) = T(\frac{n}{2}) + \Theta(14)
+\]
+
+Applying Master Theorem, we have: 
+
+\begin{align}
+c_{crit} &= log_21 = 0 \\
+\Rightarrow T(n) &= \Theta(n^0\log{n}) = \Theta(\log{n})
+\end{align}
+
+Now, if $n$ is even, we need 7 arithmetic operations to combine the subproblems. Again, we have:
+
+\[
+T(n) = T(\frac{n}{2}) + \Theta(7)
+\]
+
+Applying the Master Theorem, we also have $T(n) = \Theta(\log{n})$ \\
+$\Rightarrow$ The time complexity of the algorithm is $\Theta(\log{n})$
+
+
+
+\pagebreak
+\section*{Problem 2}
+\subsection*{a.}
+We have: Consider the following identities, with ${n \in \mathbb{N}}$: 
+
+\[
+\begin{pmatrix} n \\ 0 \end{pmatrix} = \begin{pmatrix} n \\ n \end{pmatrix} = 1
+\]
+
+Consider next, for ${k \in \mathbb{N}}$, and ${k < n}$:
+
+\[
+\begin{pmatrix} n \\ k \end{pmatrix}
+=
+\begin{pmatrix} n - 1 \\ k - 1 \end{pmatrix} 
++ \begin{pmatrix} n - 1 \\ k \end{pmatrix}
+\]
+
+We can define a function  $binomial(n, k)$:\\
+
+\begin{algorithm}
+\caption{$binomial(n, k)$}\label{alg:cap}
+\begin{algorithmic}
+\If{($n$ = $k$) || ($k$ = 0)} 
+    \State $binomial(n, k) \gets 1$
+\Else 
+    \State {$binomial(n, k) \gets (binomial(n - 1, k - 1) + binomial(n - 1, k))$}
+\EndIf 
+\end{algorithmic}
+\end{algorithm}
+
+
+\pagebreak
+\subsection*{b.}
+We have, the recurrance relation of the algorithm is:
+
+\[
+T(n, k) = T(n - 1, k - 1) + T(n - 1, k) + O(1)
+\]
+
+
+\pagebreak
+\subsection*{c.}
+We have, from the previous part, where O(1) is the time to sum up the numbers:
+
+\begin{align}
+T(n, k) &= T(n - 1, k - 1) + T(n - 1, k) + O(1)                                                       \\
+           &= T(n - 2, k - 2) + 2T(n - 2, k - 1) + T(n - 2, k) + 3O(1)                           \\
+           &= T(n - 3, k - 3) + 3T(n - 3, k - 2) + 3T(n - 3, k - 1) + T(n - 3, k) + 5O(1) \\
+           &= ...
+\end{align}
+
+Consider that for each steps, the number of summands is doubled, and we need $2^n$ arithmetic operators to sum up the sub problem. So we get the following:
+ 
+\begin{align}
+T(n, k) &\leq O(2^n) + O(2^n) \\
+\Leftrightarrow T(n, k) &= O(2^n)  
+\end{align}
+
+Consider $n \geq 4$:
+
+
+\[
+2^n < 1 * n!
+\]
+
+$\Rightarrow$ By definition, the function has a time complexity of $o(n!)$
+
+\end{document}

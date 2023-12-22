@@ -1,0 +1,82 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\geometry{a4paper}
+
+\title{Graded Exercise 8}
+\author{Duong Le}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+\subsection*{a.}
+Since for each clause, there are 7 vectors that evaluate to true, thus the number of vertices in a graph is at most $7m$. \\\\
+Certificate: Since we have a yes instance, we can assusme that there is a set of vertices $U = \{v_1, v_2, ..., v_q\}$, with $k \leq q \leq 7m$. Also, the vertices in $U$ form a clique. \\\\
+To verify the certificate, we can simply go through all pair of vertices in $U$ and check if there is an edge between them Assume that edge checking takes constant time. The total number of pair we need to check is ${q}\choose{2}$, and we have:
+\[
+\begin{aligned}
+{q} \choose {2} &= \frac{q!}{2(q-2)!} \\ 
+                        &= \frac{q(q-1)}{2} \\
+                        &\leq \frac{7m(7m-1)}{2} = O(m^2) \\
+\Longrightarrow {{q}\choose{2}} &\leq O(m^2)
+\end{aligned}
+\]
+Thus, the certificate for yes instances can be verified in polynomial time. \\\\
+$\Longrightarrow$ $k$-Clique is in NP.
+
+\pagebreak
+\subsection*{b.}
+The structure of a vector $v$ is like this: it has $n$ variables, and if $x_i$ is undefined in the clause, then $v[i]$ is marked as undefined, otherwise it will take the value of $x_i$.
+\subsection*{Step (a)}
+Consider, for a clause, there are exactly 8 possible vectors (there are three defined variables, and each can be either true or false). If we use a suitable data structure, then we can construct and check the satifiability of a vector in constant time. Thus, the time needed to list all vectors of one clause is:
+\[
+T = 8O(1) = O(8) = O(1)
+\]
+There are $m$ clauses in total. Hence, the time needed to complete step (a) is:
+\[
+T_a = mO(1) = O(m)
+\]
+$\Rightarrow$ Step (a) can be done in linear time. \\\\
+\subsection*{Step (b)}
+When comparing two vectors, we perform at most $n$ comparisions, thus the time complexity is $O(n)$. \\\\
+Consider, by the definition of compatible vectors, two vectors from the same clause cannot be compatible. So we only need to check the compatibility of vectors from different clauses. For each vector of a given clause, we need to check the compatibility with $7(m-1)$ other vectors (7 vectors for each of the remaining $m-1$ clauses). Thus, the time to check compatibility of all vectors in one clause is $7 \cdot 7n(m-1)$. Assume also that we can check if an edge is already present in the graph and construct it in constant time. Since there are $m$ clauses, the time needed to verify compatibility and creating edges is:
+\[
+T_b = m \cdot 49n(m-1) = O(nm^2)
+\]
+$\Rightarrow$ Step (b) can be done in polynomial time. \\\\
+\subsection*{Conclusion}
+The time needed to implement the embedding is:
+\[
+T_f = T_a + T_b = O(m) + O(nm^2) = O(nm^2)
+\]
+$\Longrightarrow$ The embedding can be done in polynomial time.
+\pagebreak
+\subsection*{c.}
+\subsection*{Proving that the solution to the 3SAT problem is also the solution for the embedded $k-$Clique}
+Consider, if the 3SAT problem has a solution, i.e., we have an assignment $\{x_1, x_2, ..., x_n\}$ that satisfies $F$. Since $F$ is in CNF, all of its clauses must be true silmutaneously in order for it to be satisfied. Hence, we must have a set of vectors $V = \{V_1, V_2, ..., V_m\}$ that are pairwise compatible. \\\\
+By construction, each vector $V_i$ implies a vertex in the graph. Also, for each compatible vector pair, we have an edge between them. Thus, the vectors in $V$ induces a complete subgraph, as every vectors are pairwise compatible. In other words, the vector set will create a clique of length $m=k$. Furthermore, since each vertex are made up by a unique vector, and the solution of 3SAT is unique, the solution for $k-$Clique is also unique.\\\\
+$\Rightarrow$ Each solution in the 3SAT induces a unique solution for the $k-$Clique.\\\\
+\subsection*{Proving that the solution for the embedded $k-$Clique problem is also the solution for the 3SAT}
+Assume that we have a vector set $V = \{V_1, V_2, ... V_k\}$ which forms a clique of length $k$ in the graph. By definition of clique, the vertices in $V$ are pairwise connected. \\\\
+Since each vertex is induced by one unique vector, each vertex in $V$ that there are an unique vector in the SAT problem. Furthermore, since we have an edge between any pair of vertices, these vectors must be pairwise compatible. We also have that each vector satisfies a unique clause of the formula (since two different vectors in the same clauses can never be compatible and hence there are no edges between the two vertices induced by those vectors). Thus, we have a set of vectors that return true to $k=m$ clause simultaneously. \\\\ 
+$\Rightarrow$ These vectors form a the solution for the 3SAT problem. And since each vertex is constructed by a unique vector, this solution is also unique.\\\\
+\subsection*{Conclusion}
+We have shown that each solution in the 3SAT problem implies a unique solution in the embedded $k-$Clique problem and vice-versa. In part b we also show that the embedding can be done in polynomial time. \\\\
+$\Longrightarrow$ The given embedding is a Karp reduction.
+
+\pagebreak
+\subsection*{d.}
+In part a, we have shown that the problem of $k-$Clique is in NP. Also in part b and c we have shown that $k-$Clique can be reduced from 3SAT (which is a NP-complete problem), implying that $k-$Clique is also in NP-hard. \\\\
+$\Rightarrow$ By definition, $k-$Clique is NP-complete.
+
+
+
+
+
+\end{document}
